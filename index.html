@@ -1,90 +1,16 @@
 <!DOCTYPE html>
-<html lang="he">
+<html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <title>שעון הנץ החמה</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background: #f9f9f9;
-      color: #333;
-      direction: rtl;
-      margin: 0;
-      padding: 20px;
-    }
-    h1 {
-      margin-bottom: 10px;
-    }
-    #timer {
-      font-size: 2em;
-      margin: 20px 0;
-      color: #0056b3;
-    }
-    #status {
-      font-size: 1.2em;
-      margin-top: 10px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/hebcal/dist/hebcal.browser.js"></script>
 </head>
 <body>
   <h1>שעון הנץ החמה</h1>
   <div id="timer">טוען נתונים...</div>
   <div id="status"></div>
 
-  <script>
-    // לשים פה את הקישור מ־Google Sheets (Publish to web → CSV)
-    const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSdPimqvyBRjjzX4R20ptw1XWhv7ejLKl3d6NewIjgHBH6Yt3TuPZTpV5SwlSAG_UoinkIqbq1XDJOI/pub?gid=701467484&single=true&output=tsv";
-    let sunriseData = {};
-
-    async function loadSunriseData() {
-      const res = await fetch(SHEET_URL);
-      const text = await res.text();
-      let lines = text.split("\n");
-      lines.forEach(line => {
-        let [date, time] = line.trim().split(",");
-        if (date && time && date !== "date") {
-          sunriseData[date] = time;
-        }
-      });
-      startClock();
-    }
-
-    function startClock() {
-      setInterval(updateClock, 1000);
-    }
-
-    function updateClock() {
-      const now = new Date();
-      const today = now.toISOString().slice(0, 10); // YYYY-MM-DD
-      const sunrise = sunriseData[today];
-
-      if (!sunrise) {
-        document.getElementById("timer").innerText = "אין נתונים להיום";
-        return;
-      }
-
-      const [h, m, s] = sunrise.split(":").map(Number);
-      const sunriseTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m, s);
-
-      const twoHoursBefore = new Date(sunriseTime.getTime() - 2 * 60 * 60 * 1000);
-
-      if (now < sunriseTime && now > twoHoursBefore) {
-        // מצב לפני הנץ → ספירה לאחור
-        let diff = sunriseTime - now;
-        let hh = Math.floor(diff / (1000 * 60 * 60));
-        let mm = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        let ss = Math.floor((diff % (1000 * 60)) / 1000);
-        document.getElementById("timer").innerText = `${hh}:${mm.toString().padStart(2,"0")}:${ss.toString().padStart(2,"0")}`;
-        document.getElementById("status").innerText = "ספירה לאחור עד הנץ החמה";
-      } else {
-        // אחרי הנץ → הצגת השעה הנוכחית
-        document.getElementById("timer").innerText = now.toLocaleTimeString("he-IL");
-        document.getElementById("status").innerText = "אחרי הנץ החמה";
-      }
-    }
-
-    loadSunriseData();
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
