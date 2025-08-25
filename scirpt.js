@@ -1,5 +1,5 @@
 // החליף פה את הקישור מ־Google Sheets (Publish to web → CSV)
-const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSdPimqvyBRjjzX4R20ptw1XWhv7ejLKl3d6NewIjgHBH6Yt3TuPZTpV5SwlSAG_UoinkIqbq1XDJOI/pub?gid=701467484&single=true&output=tsv";
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSdPimqvyBRjjzX4R20ptw1XWhv7ejLKl3d6NewIjgHBH6Yt3TuPZTpV5SwlSAG_UoinkIqbq1XDJOI/pub?gid=701467484&single=true&output=csv";
 let sunriseData = {};
 let sunriseTime = "06:00:00";
 
